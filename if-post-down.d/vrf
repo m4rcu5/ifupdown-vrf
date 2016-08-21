@@ -6,7 +6,7 @@ if [ -n "${IF_VRF_ID}" ]; then
     # Set the VRF device
     VRF_DEVICE="vrf-${IF_VRF_ID}"
 
-    # Delete the vrf if it is no longer needed
+    # Delete the VRF if it is no longer needed
     if ! (ip link show master ${VRF_DEVICE} | grep -q .) then
         ip link delete ${VRF_DEVICE}
 

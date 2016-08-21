@@ -9,7 +9,7 @@ if [ -n "${IF_VRF_ID}" ]; then
     # Set the table id (VRF ID + 100 to avoid collisions)
     VRF_TABLE=$(($IF_VRF_ID+100))
 
-    # Create the vrf if it doesn't already exist
+    # Create the VRF if it doesn't already exist
     if ! (ip link list type vrf | grep -q ${VRF_DEVICE}); then
         ip link add ${VRF_DEVICE} type vrf table ${VRF_TABLE}
 
@@ -18,7 +18,4 @@ if [ -n "${IF_VRF_ID}" ]; then
 
         ip link set dev ${VRF_DEVICE} up
     fi
-
-    # Enslave current device to the vrf
-    ip link set dev ${IFACE} master ${VRF_DEVICE}
 fi

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+if [ -n "${IF_VRF_ID}" ]; then
+    # Set the VRF device
+    VRF_DEVICE="vrf-${IF_VRF_ID}"
+
+    # Enslave current device to the VRF
+    ip link set dev ${IFACE} master ${VRF_DEVICE}
+fi
