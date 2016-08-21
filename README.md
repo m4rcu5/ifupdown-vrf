@@ -1,7 +1,7 @@
 # ifupdown-vrf
 
 Some simple scripts to transparently set up VRF's on
-Debian-like systems.  Copy the directories to `/etc/network`.
+Debian-like systems.  Copy the contenrs of the directories to their corresponding directories in `/etc/network`.
 
 To configure an interface enslaved to a VRF use the following stanza:
 ```
@@ -27,7 +27,7 @@ Upon running `ifdown veth0` it will destroy your device and if the VRF is no lon
 
 ### Thoughts
 
-To use VRF's in linux, you will need a recent kernel and even more recent iproute2 package installed (>= iproute2-4.6).
+To use VRF's in Linux, you will need a recent kernel and even more recent iproute2 package installed (>= iproute2-4.6).
 
 You can also add a device route to the VRF device in order to access the routing table in the VRF. Example:
 `ip route add 10.0.0.0/24 dev vrf-10`
