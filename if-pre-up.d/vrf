@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -e
+
+if [ -n "${IF_VRF_ID}" ]; then
+    # Set the VRF device
+    VRF_DEVICE="vrf-${IF_VRF_ID}"
+
+    # Set the table id (VRF ID + 100 to avoid collisions)
+    VRF_TABLE=$(($IF_VRF_ID+100))
+
+    # Create the vrf if it doesn't already exist
+    if ! (ip link list type vrf | grep -q ${VRF_DEVICE}); then
+        ip link add ${VRF_DEVICE} type vrf table ${VRF_TABLE}
+
+        ip rule add iif ${VRF_DEVICE} table ${VRF_TABLE} || true
+        ip rule add oif ${VRF_DEVICE} table ${VRF_TABLE} || true
+
+        ip link set dev ${VRF_DEVICE} up
+    fi
+
+    # Enslave current device to the vrf
+    ip link set dev ${IFACE} master ${VRF_DEVICE}
+fi

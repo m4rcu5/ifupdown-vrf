@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+if [ -n "${IF_VRF_ID}" ]; then
+    # Set the VRF device
+    VRF_DEVICE="vrf-${IF_VRF_ID}"
+
+    # Delete the vrf if it is no longer needed
+    if ! (ip link show master ${VRF_DEVICE} | grep -q .) then
+        ip link delete ${VRF_DEVICE}
+
+        ip rule delete iif ${VRF_DEVICE}
+        ip rule delete oif ${VRF_DEVICE}
+    fi
+fi
